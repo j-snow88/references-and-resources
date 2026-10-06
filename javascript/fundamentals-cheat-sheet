@@ -1,0 +1,1910 @@
+# JavaScript Fundamentals Cheat Sheet
+
+> A practical reference for modern JavaScript fundamentals, including variables, data types, operators, functions, arrays, objects, loops, DOM manipulation, events, forms, asynchronous JavaScript, and the Fetch API.
+
+---
+
+# Table of Contents
+
+1. [Variables & Data Types](#1-variables--data-types)
+2. [Operators & Conditions](#2-operators--conditions)
+3. [Functions & Arrow Functions](#3-functions--arrow-functions)
+4. [Arrays & Methods](#4-arrays--methods)
+5. [Objects & Destructuring](#5-objects--destructuring)
+6. [Loops & Iteration](#6-loops--iteration)
+7. [DOM Manipulation](#7-dom-manipulation)
+8. [Events & Forms](#8-events--forms)
+9. [Async JavaScript & Fetch API](#9-async-javascript--fetch-api)
+10. [Quick Reference](#10-quick-reference)
+
+---
+
+# 1. Variables & Data Types
+
+JavaScript variables store values that can be used and manipulated throughout your program.
+
+The three primary variable declarations are:
+
+```text
+var
+let
+const
+```
+
+---
+
+## `var`
+
+`var` is the older way of declaring variables.
+
+```javascript
+var name = "Alex";
+```
+
+Characteristics:
+
+```text
+Function-scoped
+Can be reassigned
+Can be redeclared
+Hoisted
+```
+
+Modern JavaScript generally avoids `var` unless there is a specific reason to use it.
+
+---
+
+## `let`
+
+Use `let` when a variable's value needs to change.
+
+```javascript
+let score = 10;
+
+score = 20;
+```
+
+Characteristics:
+
+```text
+Block-scoped
+Can be reassigned
+Cannot be redeclared in the same scope
+```
+
+Example:
+
+```javascript
+let age = 21;
+
+age = 22;
+```
+
+---
+
+## `const`
+
+Use `const` when the variable should not be reassigned.
+
+```javascript
+const user = "Dev";
+```
+
+Characteristics:
+
+```text
+Block-scoped
+Cannot be reassigned
+Cannot be redeclared in the same scope
+```
+
+Prefer `const` by default.
+
+Use `let` when reassignment is required.
+
+---
+
+## Important: `const` Objects and Arrays Can Still Change
+
+`const` prevents reassignment of the variable itself.
+
+It does **not** make an object or array immutable.
+
+```javascript
+const user = {
+    name: "Alex"
+};
+
+user.name = "Sam";
+```
+
+This works.
+
+But this does not:
+
+```javascript
+const user = {
+    name: "Alex"
+};
+
+user = {
+    name: "Sam"
+};
+```
+
+The same concept applies to arrays.
+
+```javascript
+const fruits = ["apple"];
+
+fruits.push("orange");
+```
+
+This is allowed.
+
+---
+
+## Common JavaScript Data Types
+
+JavaScript commonly works with:
+
+```text
+String
+Number
+Boolean
+Object
+Array
+Null
+Undefined
+BigInt
+Symbol
+```
+
+---
+
+## String
+
+Text values are strings.
+
+```javascript
+const name = "Alex";
+```
+
+```javascript
+typeof name;
+// "string"
+```
+
+---
+
+## Number
+
+JavaScript uses the `number` type for both integers and floating-point numbers.
+
+```javascript
+const age = 21;
+const price = 49.99;
+```
+
+```javascript
+typeof age;
+// "number"
+```
+
+---
+
+## Boolean
+
+Boolean values represent true or false.
+
+```javascript
+const isDev = true;
+const isAdmin = false;
+```
+
+---
+
+## Array
+
+Arrays store multiple values.
+
+```javascript
+const skills = [
+    "JavaScript",
+    "CSS",
+    "HTML"
+];
+```
+
+---
+
+## Object
+
+Objects store related data as key-value pairs.
+
+```javascript
+const user = {
+    role: "dev",
+    age: 21
+};
+```
+
+---
+
+## `null`
+
+Represents an intentionally empty value.
+
+```javascript
+const result = null;
+```
+
+---
+
+## `undefined`
+
+Usually means a value has not yet been assigned.
+
+```javascript
+let result;
+
+console.log(result);
+// undefined
+```
+
+---
+
+## `typeof`
+
+Use `typeof` to inspect the type of a value.
+
+```javascript
+typeof "hello";
+// "string"
+
+typeof 42;
+// "number"
+
+typeof true;
+// "boolean"
+```
+
+---
+
+## Variable Rule of Thumb
+
+```text
+Use const first.
+
+Use let when the value must change.
+
+Avoid var in modern JavaScript unless you specifically need its behavior.
+```
+
+---
+
+# 2. Operators & Conditions
+
+Operators allow JavaScript to compare values, perform calculations, and control which code runs.
+
+---
+
+## Comparison Operators
+
+```javascript
+const age = 21;
+
+age >= 18;
+```
+
+Common comparison operators:
+
+| Operator | Meaning |
+|---|---|
+| `===` | Strict equality |
+| `!==` | Strict inequality |
+| `>` | Greater than |
+| `<` | Less than |
+| `>=` | Greater than or equal |
+| `<=` | Less than or equal |
+
+---
+
+## Strict Equality
+
+Prefer:
+
+```javascript
+value === otherValue;
+```
+
+instead of:
+
+```javascript
+value == otherValue;
+```
+
+`===` compares both:
+
+```text
+Value
+Type
+```
+
+Example:
+
+```javascript
+5 === 5;
+// true
+
+5 === "5";
+// false
+```
+
+With loose equality:
+
+```javascript
+5 == "5";
+// true
+```
+
+### Modern Rule
+
+```text
+Prefer === instead of ==
+Prefer !== instead of !=
+```
+
+---
+
+## Logical Operators
+
+Logical operators combine multiple conditions.
+
+| Operator | Meaning |
+|---|---|
+| `&&` | AND |
+| `||` | OR |
+| `!` | NOT |
+
+---
+
+## AND — `&&`
+
+Both conditions must be true.
+
+```javascript
+const isLoggedIn = true;
+const isAdmin = true;
+
+if (isLoggedIn && isAdmin) {
+    console.log("Admin access");
+}
+```
+
+---
+
+## OR — `||`
+
+At least one condition must be true.
+
+```javascript
+const isStudent = false;
+const isMember = true;
+
+if (isStudent || isMember) {
+    console.log("Discount available");
+}
+```
+
+---
+
+## NOT — `!`
+
+Reverses a boolean value.
+
+```javascript
+const isLoggedIn = false;
+
+if (!isLoggedIn) {
+    console.log("Please log in");
+}
+```
+
+---
+
+## `if / else`
+
+Use conditional statements to run different code depending on whether a condition is true or false.
+
+```javascript
+const age = 18;
+
+if (age >= 18) {
+    console.log("Adult");
+} else {
+    console.log("Minor");
+}
+```
+
+---
+
+## Multiple Conditions
+
+```javascript
+const age = 21;
+const hasID = true;
+
+if (age >= 18 && hasID) {
+    console.log("Access allowed");
+} else {
+    console.log("Access denied");
+}
+```
+
+---
+
+## `else if`
+
+Use `else if` when more than two outcomes are possible.
+
+```javascript
+const score = 85;
+
+if (score >= 90) {
+    console.log("A");
+} else if (score >= 80) {
+    console.log("B");
+} else if (score >= 70) {
+    console.log("C");
+} else {
+    console.log("Needs improvement");
+}
+```
+
+---
+
+## Ternary Operator
+
+The ternary operator provides short conditional syntax.
+
+```javascript
+const status = age >= 18
+    ? "Adult"
+    : "Minor";
+```
+
+General syntax:
+
+```javascript
+condition
+    ? valueIfTrue
+    : valueIfFalse;
+```
+
+Best used for simple decisions.
+
+Avoid deeply nested ternary expressions when normal `if` statements would be easier to read.
+
+---
+
+# 3. Functions & Arrow Functions
+
+Functions allow you to:
+
+```text
+Reuse logic
+Organize code
+Accept input
+Return values
+```
+
+---
+
+## Function Declaration
+
+Traditional reusable function syntax:
+
+```javascript
+function greet(name) {
+    return "Hello " + name;
+}
+```
+
+Usage:
+
+```javascript
+const message = greet("Alex");
+
+console.log(message);
+```
+
+---
+
+## Function Parameters
+
+Parameters allow information to be passed into a function.
+
+```javascript
+function calculateTotal(price, tax) {
+    return price + tax;
+}
+```
+
+Usage:
+
+```javascript
+const total = calculateTotal(100, 18);
+
+console.log(total);
+// 118
+```
+
+---
+
+## Function Expression
+
+A function can be stored inside a variable.
+
+```javascript
+const greet = function(name) {
+    return "Hello " + name;
+};
+```
+
+---
+
+## Arrow Function
+
+Arrow functions provide shorter syntax.
+
+```javascript
+const greet = (name) => {
+    return "Hello " + name;
+};
+```
+
+---
+
+## Short Return
+
+When an arrow function consists of a single expression, the return can be implicit.
+
+```javascript
+const add = (a, b) => a + b;
+```
+
+Equivalent to:
+
+```javascript
+const add = (a, b) => {
+    return a + b;
+};
+```
+
+---
+
+## Single Parameter
+
+Parentheses can be omitted for one simple parameter.
+
+```javascript
+const double = number => number * 2;
+```
+
+Many teams still keep the parentheses for consistency:
+
+```javascript
+const double = (number) => number * 2;
+```
+
+---
+
+## Function Rule of Thumb
+
+Use regular functions when their behavior or readability makes them appropriate.
+
+Use arrow functions heavily for:
+
+```text
+Callbacks
+Array methods
+Short utility functions
+Event-handling helpers
+```
+
+Example:
+
+```javascript
+const numbers = [1, 2, 3];
+
+const doubled = numbers.map(
+    (number) => number * 2
+);
+```
+
+---
+
+# 4. Arrays & Methods
+
+Arrays store multiple values in a single variable.
+
+```javascript
+const fruits = [
+    "apple",
+    "mango",
+    "banana"
+];
+```
+
+---
+
+## Access an Array Item
+
+Array indexes begin at `0`.
+
+```javascript
+const fruits = [
+    "apple",
+    "mango",
+    "banana"
+];
+
+console.log(fruits[0]);
+// apple
+```
+
+---
+
+## `push()`
+
+Adds an item to the end of an array.
+
+```javascript
+fruits.push("orange");
+```
+
+---
+
+## `pop()`
+
+Removes the final item.
+
+```javascript
+fruits.pop();
+```
+
+---
+
+## `map()`
+
+Creates a **new array** by transforming each item.
+
+```javascript
+const numbers = [1, 2, 3];
+
+const doubled = numbers.map(
+    (number) => number * 2
+);
+```
+
+Result:
+
+```javascript
+[2, 4, 6]
+```
+
+---
+
+## `filter()`
+
+Creates a new array containing only items that satisfy a condition.
+
+```javascript
+const ages = [12, 18, 21, 15, 30];
+
+const adults = ages.filter(
+    (age) => age >= 18
+);
+```
+
+Result:
+
+```javascript
+[18, 21, 30]
+```
+
+---
+
+## `reduce()`
+
+Reduces an array to a single accumulated value.
+
+```javascript
+const prices = [
+    100,
+    200,
+    300
+];
+
+const total = prices.reduce(
+    (sum, price) => {
+        return sum + price;
+    },
+    0
+);
+
+console.log(total);
+// 600
+```
+
+Short version:
+
+```javascript
+const total = prices.reduce(
+    (sum, price) => sum + price,
+    0
+);
+```
+
+---
+
+## `find()`
+
+Returns the first matching item.
+
+```javascript
+const users = [
+    { id: 1, name: "Alex" },
+    { id: 2, name: "Sam" }
+];
+
+const user = users.find(
+    (user) => user.id === 2
+);
+```
+
+---
+
+## `includes()`
+
+Checks whether an array contains a value.
+
+```javascript
+const roles = [
+    "admin",
+    "editor",
+    "user"
+];
+
+roles.includes("admin");
+// true
+```
+
+---
+
+## Common Array Methods
+
+```text
+map()
+filter()
+reduce()
+find()
+includes()
+push()
+pop()
+forEach()
+some()
+every()
+```
+
+---
+
+## Choosing an Array Method
+
+```text
+Need to transform every item?
+→ map()
+
+Need only matching items?
+→ filter()
+
+Need one matching item?
+→ find()
+
+Need one final accumulated value?
+→ reduce()
+
+Need to check whether a value exists?
+→ includes()
+
+Need to perform an action for each item?
+→ forEach()
+```
+
+---
+
+# 5. Objects & Destructuring
+
+Objects store related information using **key-value pairs**.
+
+---
+
+## Create an Object
+
+```javascript
+const user = {
+    name: "Alex",
+    age: 21
+};
+```
+
+---
+
+## Access Object Values
+
+### Dot Notation
+
+```javascript
+user.name;
+```
+
+### Bracket Notation
+
+```javascript
+user["age"];
+```
+
+Dot notation is generally preferred when the property name is known and valid as an identifier.
+
+Bracket notation is useful when the property name is dynamic.
+
+```javascript
+const property = "name";
+
+console.log(user[property]);
+```
+
+---
+
+## Update an Object
+
+Change an existing property:
+
+```javascript
+user.age = 22;
+```
+
+Add a new property:
+
+```javascript
+user.role = "developer";
+```
+
+---
+
+## Destructuring
+
+Destructuring extracts object properties into variables.
+
+Instead of:
+
+```javascript
+const name = user.name;
+const age = user.age;
+```
+
+Use:
+
+```javascript
+const {
+    name,
+    age
+} = user;
+```
+
+---
+
+## Example
+
+```javascript
+const product = {
+    title: "Laptop",
+    price: 49999,
+    inStock: true
+};
+
+const {
+    title,
+    price
+} = product;
+
+console.log(title, price);
+```
+
+---
+
+## Rename While Destructuring
+
+```javascript
+const user = {
+    name: "Alex"
+};
+
+const {
+    name: userName
+} = user;
+
+console.log(userName);
+```
+
+---
+
+## Default Values
+
+```javascript
+const user = {
+    name: "Alex"
+};
+
+const {
+    name,
+    role = "user"
+} = user;
+```
+
+---
+
+## Nested Destructuring
+
+```javascript
+const user = {
+    name: "Alex",
+    address: {
+        city: "Chicago"
+    }
+};
+
+const {
+    address: {
+        city
+    }
+} = user;
+```
+
+---
+
+## Object Rule of Thumb
+
+Use destructuring when it makes access to object values cleaner and easier to understand.
+
+---
+
+# 6. Loops & Iteration
+
+Loops allow JavaScript to repeat code and process collections of data.
+
+---
+
+## `for` Loop
+
+Useful when you know how many times code should repeat.
+
+```javascript
+for (let i = 0; i < 5; i++) {
+    console.log(i);
+}
+```
+
+Result:
+
+```text
+0
+1
+2
+3
+4
+```
+
+---
+
+## `for...of`
+
+Loops directly through iterable values such as arrays.
+
+```javascript
+const fruits = [
+    "apple",
+    "mango",
+    "banana"
+];
+
+for (const fruit of fruits) {
+    console.log(fruit);
+}
+```
+
+This is often cleaner than manually managing an array index.
+
+---
+
+## `forEach()`
+
+Runs a callback once for each array item.
+
+```javascript
+fruits.forEach((fruit) => {
+    console.log(fruit);
+});
+```
+
+---
+
+## `while`
+
+Repeats code while a condition remains true.
+
+```javascript
+let count = 0;
+
+while (count < 5) {
+    console.log(count);
+    count++;
+}
+```
+
+Be careful to ensure the condition eventually becomes false.
+
+Otherwise, you can create an infinite loop.
+
+---
+
+## Template Literals in Loops
+
+```javascript
+const users = [
+    "Alex",
+    "Sam",
+    "Dev"
+];
+
+for (const user of users) {
+    console.log(`Hello ${user}`);
+}
+```
+
+Template literals use backticks:
+
+```javascript
+`Hello ${user}`
+```
+
+---
+
+## Loop vs Array Methods
+
+A useful rule:
+
+```text
+Need general repetition?
+→ for
+
+Need to iterate array values cleanly?
+→ for...of
+
+Need a side effect for each array item?
+→ forEach()
+
+Need transformed data?
+→ map()
+
+Need filtered data?
+→ filter()
+
+Need one accumulated result?
+→ reduce()
+```
+
+---
+
+# 7. DOM Manipulation
+
+The **DOM (Document Object Model)** allows JavaScript to interact with the visible webpage.
+
+JavaScript can:
+
+```text
+Select elements
+Change text
+Change HTML
+Change styles
+Add/remove classes
+Create elements
+Remove elements
+Respond to events
+```
+
+---
+
+## Select an Element
+
+Use `document.querySelector()` to select the first element matching a CSS selector.
+
+```javascript
+const title = document.querySelector(
+    ".title"
+);
+```
+
+Select by ID:
+
+```javascript
+const button = document.querySelector(
+    "#btn"
+);
+```
+
+---
+
+## Select Multiple Elements
+
+Use:
+
+```javascript
+const items = document.querySelectorAll(
+    ".item"
+);
+```
+
+---
+
+## Change Text
+
+```javascript
+title.textContent = "Hello JavaScript";
+```
+
+---
+
+## Change HTML
+
+```javascript
+title.innerHTML = "<strong>Hello</strong>";
+```
+
+Use `innerHTML` carefully when content can come from users or other untrusted sources.
+
+For plain text, prefer:
+
+```javascript
+textContent
+```
+
+---
+
+## Change Styles
+
+Styles can be changed directly:
+
+```javascript
+title.style.color = "blue";
+```
+
+Another example:
+
+```javascript
+title.style.fontSize = "2rem";
+```
+
+For substantial styling changes, CSS classes are usually preferable.
+
+---
+
+## Add a Class
+
+```javascript
+title.classList.add("active");
+```
+
+---
+
+## Remove a Class
+
+```javascript
+title.classList.remove("active");
+```
+
+---
+
+## Toggle a Class
+
+```javascript
+title.classList.toggle("dark");
+```
+
+---
+
+## Check for a Class
+
+```javascript
+title.classList.contains("active");
+```
+
+---
+
+## Event + DOM Example
+
+```javascript
+const button = document.querySelector(
+    "#btn"
+);
+
+const box = document.querySelector(
+    ".box"
+);
+
+button.addEventListener("click", () => {
+    box.classList.toggle("active");
+});
+```
+
+This connects JavaScript behavior to visible webpage elements.
+
+---
+
+# 8. Events & Forms
+
+Events allow JavaScript to react to user actions such as:
+
+```text
+Clicks
+Typing
+Form submissions
+Mouse movement
+Keyboard input
+Focus changes
+```
+
+---
+
+## Click Event
+
+```javascript
+button.addEventListener(
+    "click",
+    () => {
+        console.log("Clicked");
+    }
+);
+```
+
+---
+
+## Input Event
+
+The `input` event runs whenever the value changes.
+
+```javascript
+input.addEventListener(
+    "input",
+    (event) => {
+        console.log(event.target.value);
+    }
+);
+```
+
+---
+
+## Event Object
+
+The callback can receive information about the event.
+
+```javascript
+button.addEventListener(
+    "click",
+    (event) => {
+        console.log(event);
+    }
+);
+```
+
+A common property is:
+
+```javascript
+event.target
+```
+
+which references the element that triggered the event.
+
+---
+
+## Form Submission
+
+```javascript
+form.addEventListener(
+    "submit",
+    (event) => {
+        event.preventDefault();
+
+        console.log("Form submitted");
+    }
+);
+```
+
+---
+
+## `preventDefault()`
+
+Browsers have default behaviors for many events.
+
+For example, submitting a normal HTML form can cause navigation or a page reload.
+
+```javascript
+event.preventDefault();
+```
+
+prevents that default action.
+
+---
+
+## Read a Form Value
+
+```javascript
+const name = nameInput.value;
+
+console.log(name);
+```
+
+---
+
+## Complete Form Example
+
+```javascript
+const form = document.querySelector(
+    "#form"
+);
+
+const email = document.querySelector(
+    "#email"
+);
+
+form.addEventListener(
+    "submit",
+    (event) => {
+        event.preventDefault();
+
+        console.log(email.value);
+    }
+);
+```
+
+---
+
+## Important Form Rule
+
+Do **not** automatically use `preventDefault()` on every form submission.
+
+Use it when JavaScript is intentionally handling the submission itself.
+
+For example:
+
+```javascript
+form.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        // Validate and submit with JavaScript.
+    }
+);
+```
+
+---
+
+# 9. Async JavaScript & Fetch API
+
+Asynchronous JavaScript allows the program to wait for operations such as:
+
+```text
+API requests
+Network responses
+Database operations
+Timers
+File operations
+```
+
+without freezing the rest of the application.
+
+---
+
+## Promise
+
+A Promise represents a value that may become available later.
+
+Example:
+
+```javascript
+fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    });
+```
+
+A Promise can generally be:
+
+```text
+Pending
+Fulfilled
+Rejected
+```
+
+---
+
+## `async`
+
+Declare an asynchronous function using `async`.
+
+```javascript
+async function getData() {
+    // Async code
+}
+```
+
+An `async` function always returns a Promise.
+
+---
+
+## `await`
+
+`await` pauses execution **inside the async function** until the Promise settles.
+
+```javascript
+async function getData() {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    console.log(data);
+}
+```
+
+---
+
+## `try / catch`
+
+Use `try / catch` to handle errors.
+
+```javascript
+try {
+    const response = await fetch(url);
+} catch (error) {
+    console.error(error);
+}
+```
+
+---
+
+## Fetch API Example
+
+```javascript
+async function getUsers() {
+    try {
+        const response = await fetch(
+            "https://api.example.com/users"
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+    } catch (error) {
+        console.error(
+            "Failed to fetch data",
+            error
+        );
+    }
+}
+```
+
+---
+
+## Better Fetch Error Handling
+
+A `fetch()` request does not automatically reject merely because the server returns an HTTP error such as `404` or `500`.
+
+Check `response.ok`:
+
+```javascript
+async function getUsers() {
+    try {
+        const response = await fetch(
+            "https://api.example.com/users"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP error: ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+    } catch (error) {
+        console.error(
+            "Failed to fetch data:",
+            error
+        );
+    }
+}
+```
+
+---
+
+## POST Request
+
+Send data to an API:
+
+```javascript
+async function createUser(user) {
+    const response = await fetch(
+        "https://api.example.com/users",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `HTTP error: ${response.status}`
+        );
+    }
+
+    return response.json();
+}
+```
+
+Usage:
+
+```javascript
+const user = await createUser({
+    name: "Alex",
+    role: "developer"
+});
+```
+
+---
+
+## Promise Syntax vs `async/await`
+
+Promise chaining:
+
+```javascript
+fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+```
+
+Equivalent `async/await` style:
+
+```javascript
+async function getData() {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        console.log(data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+```
+
+For many workflows, `async/await` is easier to read.
+
+---
+
+# 10. Quick Reference
+
+## Variables
+
+```javascript
+const name = "Alex";
+
+let score = 10;
+score = 20;
+```
+
+```text
+const → default choice
+let   → value will change
+var   → generally avoid in modern JS
+```
+
+---
+
+## Conditions
+
+```javascript
+if (age >= 18 && hasID) {
+    console.log("Allowed");
+} else {
+    console.log("Denied");
+}
+```
+
+---
+
+## Ternary
+
+```javascript
+const status = age >= 18
+    ? "Adult"
+    : "Minor";
+```
+
+---
+
+## Function
+
+```javascript
+function add(a, b) {
+    return a + b;
+}
+```
+
+---
+
+## Arrow Function
+
+```javascript
+const add = (a, b) => a + b;
+```
+
+---
+
+## Array
+
+```javascript
+const fruits = [
+    "apple",
+    "banana"
+];
+```
+
+---
+
+## Array Methods
+
+```javascript
+const doubled = numbers.map(
+    (number) => number * 2
+);
+
+const adults = ages.filter(
+    (age) => age >= 18
+);
+
+const total = prices.reduce(
+    (sum, price) => sum + price,
+    0
+);
+```
+
+---
+
+## Object
+
+```javascript
+const user = {
+    name: "Alex",
+    age: 21
+};
+```
+
+---
+
+## Destructuring
+
+```javascript
+const {
+    name,
+    age
+} = user;
+```
+
+---
+
+## Loop
+
+```javascript
+for (const user of users) {
+    console.log(user);
+}
+```
+
+---
+
+## DOM Selection
+
+```javascript
+const button = document.querySelector(
+    "#btn"
+);
+```
+
+---
+
+## Event Listener
+
+```javascript
+button.addEventListener(
+    "click",
+    () => {
+        console.log("Clicked");
+    }
+);
+```
+
+---
+
+## Class Toggle
+
+```javascript
+element.classList.toggle("active");
+```
+
+---
+
+## Form Submission
+
+```javascript
+form.addEventListener(
+    "submit",
+    (event) => {
+        event.preventDefault();
+
+        console.log(input.value);
+    }
+);
+```
+
+---
+
+## Fetch API
+
+```javascript
+async function getData() {
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+```
+
+---
+
+# Modern JavaScript Rules of Thumb
+
+```text
+1. Prefer const by default.
+
+2. Use let when reassignment is required.
+
+3. Avoid var unless you specifically need its behavior.
+
+4. Prefer === and !== over == and !=.
+
+5. Use arrow functions for concise callbacks.
+
+6. Use map() when transforming arrays.
+
+7. Use filter() when selecting array items.
+
+8. Use reduce() when producing one accumulated value.
+
+9. Use for...of for clean array iteration.
+
+10. Use destructuring when it makes object access clearer.
+
+11. Prefer CSS classes over extensive inline style manipulation.
+
+12. Use textContent instead of innerHTML when inserting plain text.
+
+13. Use async/await for readable asynchronous workflows.
+
+14. Wrap fallible asynchronous operations in appropriate error handling.
+
+15. Check response.ok when using fetch() if HTTP failures should be treated as errors.
+```
+
+---
+
+# JavaScript Mental Model
+
+```text
+DATA
+ │
+ ├── Variables
+ │    ├── const
+ │    └── let
+ │
+ ├── Arrays
+ │    └── Multiple values
+ │
+ └── Objects
+      └── Related key-value data
+
+LOGIC
+ │
+ ├── Comparisons
+ ├── Conditions
+ ├── Functions
+ └── Loops
+
+TRANSFORMATION
+ │
+ ├── map()
+ ├── filter()
+ └── reduce()
+
+WEBPAGE
+ │
+ ├── DOM Selection
+ ├── DOM Manipulation
+ ├── Events
+ └── Forms
+
+EXTERNAL DATA
+ │
+ ├── Promise
+ ├── async
+ ├── await
+ ├── fetch()
+ └── try / catch
+```
+
+---
+
+## Core Progression
+
+A useful order for learning and remembering these concepts is:
+
+```text
+Variables & Types
+        ↓
+Operators & Conditions
+        ↓
+Functions
+        ↓
+Arrays & Objects
+        ↓
+Loops & Array Methods
+        ↓
+DOM Manipulation
+        ↓
+Events & Forms
+        ↓
+Async JavaScript
+        ↓
+APIs
+```
